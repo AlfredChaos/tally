@@ -1,8 +1,6 @@
 attrs==22.1.0
 chardet==2.3.0
 click==7.1.2
-command-not-found==0.3
-distro-info===0.14ubuntu0.2
 Flask==1.1.4
 Flask-SQLAlchemy==2.5.1
 importlib-metadata==2.1.3

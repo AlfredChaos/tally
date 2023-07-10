@@ -66,4 +66,8 @@ class register_app(object):
         self.app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
         self.app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
         return SQLAlchemy(self.app)
+    
+    def register_blueprint(self, bp, url_prefix):
+        self.app.register_blueprint(bp, url_prefix)
+
         
