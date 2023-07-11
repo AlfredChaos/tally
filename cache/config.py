@@ -11,3 +11,6 @@ global_config = {
         "database": "tally"
     }
 }
+
+def get_global_config():
+    return global_config

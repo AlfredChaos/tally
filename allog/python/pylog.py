@@ -9,9 +9,9 @@ class Level():
     Error = "ERROR"
     Critical = "CRITICAL"
 
-    def get_level(self, level):
+    def get_level(level):
         if type(level) != 'str':
-            raise "invalid parameter"
+            print("Error: get level failed, invalid parameter")
         if level.upper() == Level.Debug:
             return Level.Debug
         elif level.upper() == Level.Info:
@@ -23,7 +23,7 @@ class Level():
         elif level.upper() == Level.Critical:
             return Level.Critical
         else:
-            raise "unsupport level"
+            print("Error: get level failed, unsupport level")
 
 
 class log(object):
