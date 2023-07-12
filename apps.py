@@ -7,7 +7,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
-class register_app(object):
+class RegisterApp(object):
 
     def __init__(self) -> None:
         self.app = Flask(__name__)

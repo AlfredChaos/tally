@@ -25,7 +25,7 @@ def register_blueprint(root):
 
 
 if __name__ == '__main__':
-    root = apps.register_app()
+    root = apps.RegisterApp()
     register_blueprint(root)
     log.global_log = root.log
     database.global_db = root.db
