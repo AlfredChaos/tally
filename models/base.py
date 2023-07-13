@@ -7,13 +7,13 @@ Base = declarative_base()
 Db = database.get_global_db()
 
 
-class HasTenantId(object):
-
-    tenant_id = Db.Column(Db.String(constant.UUID_FIELD_SIZE), index=True)
-
-
 class StandardAttr(object):
 
     id = Db.Column(Db.String(constant.UUID_FIELD_SIZE), primary_key=True, default=uuidutils.generate_uuid)
     created_at = Db.Column(Db.Date, nullable=False)
     updated_at = Db.Column(Db.Date, nullable=False)
+
+
+class HasTenantId(object):
+
+    tenant_id = Db.Column(Db.String(constant.UUID_FIELD_SIZE), index=True)

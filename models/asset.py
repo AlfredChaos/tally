@@ -1,7 +1,7 @@
 from models.base import Base, HasTenantId, StandardAttr
 from models.base import Db as db
 
-class Asset(Base, HasTenantId, StandardAttr):
+class Asset(Base, StandardAttr, HasTenantId):
     __tablename__ = 'asset'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 

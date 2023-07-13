@@ -8,7 +8,7 @@ class BudgetPeriod(Enum):
     DAY = 'day'
     MONTH = 'month'
 
-class Budget(Base, HasTenantId, StandardAttr):
+class Budget(Base, StandardAttr, HasTenantId):
     __tablename__ = 'budget'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 

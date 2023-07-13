@@ -2,7 +2,7 @@ from common import constant
 from models.base import Base, HasTenantId, StandardAttr
 from models.base import Db as db
 
-class Vip(Base, HasTenantId, StandardAttr):
+class Vip(Base, StandardAttr, HasTenantId):
     __tablename__ = 'vip'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 
