@@ -61,9 +61,9 @@ class RegisterApp(object):
         username = config.global_config['Db']['username']
         password = config.global_config['Db']['password']
         database = config.global_config['Db']['database']
-        db_uri = 'mysql+pymysql://' + username + ':' + password + '@' + \
+        self.db_uri = 'mysql+pymysql://' + username + ':' + password + '@' + \
             host + ':' + port + '/' + database + '?charset=utf8'
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+        self.app.config['SQLALCHEMY_DATABASE_URI'] = self.db_uri
         self.app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
         return SQLAlchemy(self.app)
     

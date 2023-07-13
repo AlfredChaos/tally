@@ -6,10 +6,11 @@ from api.card import card_bp
 from api.chart import chart_bp
 from api.finance import finance_bp
 from api.income import income_bp
-from api.property import property_bp
+from api.asset import asset_bp
 from api.tag import tag_bp
 from api.vip import vip_bp
 from cache import log, database
+
 
 def register_blueprint(root):
     root.app.register_blueprint(ai_bp, url_prefix='/ai/')
@@ -19,7 +20,7 @@ def register_blueprint(root):
     root.app.register_blueprint(chart_bp, url_prefix='/chart/')
     root.app.register_blueprint(finance_bp, url_prefix='/finance/')
     root.app.register_blueprint(income_bp, url_prefix='/income/')
-    root.app.register_blueprint(property_bp, url_prefix='/property/')
+    root.app.register_blueprint(asset_bp, url_prefix='/asset/')
     root.app.register_blueprint(tag_bp, url_prefix='/tag/')
     root.app.register_blueprint(vip_bp, url_prefix='/vip/')
 

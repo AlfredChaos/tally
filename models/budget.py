@@ -1,7 +1,6 @@
-from common import constant
 from enum import Enum
-from models import Base, HasTenantId, StandardAttr
-from models import Db as db
+from models.base import Base, HasTenantId, StandardAttr
+from models.base import Db as db
 
 
 class BudgetPeriod(Enum):

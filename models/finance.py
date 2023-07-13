@@ -1,5 +1,5 @@
-from models import Base, HasTenantId, StandardAttr
-from models import Db as db
+from models.base import Base, HasTenantId, StandardAttr
+from models.base import Db as db
 
 class Finance(Base, HasTenantId, StandardAttr):
     __tablename__ = 'finance'

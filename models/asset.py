@@ -1,8 +1,8 @@
-from models import Base, HasTenantId, StandardAttr
-from models import Db as db
+from models.base import Base, HasTenantId, StandardAttr
+from models.base import Db as db
 
-class Property(Base, HasTenantId, StandardAttr):
-    __tablename__ = 'property'
+class Asset(Base, HasTenantId, StandardAttr):
+    __tablename__ = 'asset'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 
     fixed = db.Column(db.DECIMAL(20, 2), nullable=True)
