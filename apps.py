@@ -16,7 +16,6 @@ class RegisterApp(object):
         self.current_dir = self._get_current_path()
         self.config.read(self.current_dir + '/' + self.path_file)
         self._update_global_cache()
-        self._init_log()
         self.db = self.connct_database()
 
     def _get_current_path(self):
@@ -32,17 +31,6 @@ class RegisterApp(object):
                 continue
             for k, d in item.items():
                 config.global_config[new_key][k] = d
-
-    def _init_log(self):
-        log_file = config.global_config['Log']['file']
-        log_level = config.global_config['Log']['level']
-        log_output = config.global_config['Log']['output']
-        if log_output == 'stdout':
-            log_file = None
-        else:
-            log_file = self.current_dir + '/allog/' + log_file
-        log_level = Level.get_level(log_level)
-        self.log = pylog.log(file=log_file, level=log_level)
     
     def get_current_config(self):
         return config.global_config

@@ -28,8 +28,7 @@ def register_blueprint(root):
 if __name__ == '__main__':
     root = apps.RegisterApp()
     register_blueprint(root)
-    log.global_log = root.log
-    database.global_db = root.db
+    database.update_db_connection(root.db)
     try:
         root.run()
     except Exception as e:

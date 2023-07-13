@@ -10,8 +10,14 @@ global_config = {
         "username": "root",
         "password": "root",
         "database": "tally"
+    },
+    "Log": {
+        "file": "./tally.log",
+        "level": "Debug",
+        "output": "stdout"
     }
 }
+
 
 def get_global_config():
     return global_config
