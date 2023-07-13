@@ -1,5 +1,6 @@
 global_config = {
     "Default": {
+        "project": "tally",
         "server": "localhost",
         "port": 8080
     },
