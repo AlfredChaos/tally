@@ -1,8 +1,8 @@
 from common import constant
-from models.base import Base, HasTenantId, StandardAttr
+from models.base import Base, HasUserUUID, StandardAttr
 from models.base import Db as db
 
-class Income(Base, StandardAttr, HasTenantId):
+class Income(Base, StandardAttr, HasUserUUID):
     __tablename__ = 'income'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 

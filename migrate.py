@@ -12,7 +12,7 @@ def init_database_table():
     asset.Asset()
     tag.Tag()
     vip.Vip()
-    
+
 
 if __name__ == '__main__':
     root = apps.RegisterApp()

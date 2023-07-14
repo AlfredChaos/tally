@@ -15,10 +15,10 @@ def create():
 def update():
     pass
 
-@asset_bp.route("/create", methods=["DELETE"])
+@asset_bp.route("/delete", methods=["DELETE"])
 def delete():
     pass
 
-@asset_bp.route("/create", methods=["GET"])
+@asset_bp.route("/get/", methods=["GET"])
 def get():
     pass

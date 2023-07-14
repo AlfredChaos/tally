@@ -1,5 +1,5 @@
 from enum import Enum
-from models.base import Base, HasTenantId, StandardAttr
+from models.base import Base, HasUserUUID, StandardAttr
 from models.base import Db as db
 
 
@@ -8,7 +8,7 @@ class BudgetPeriod(Enum):
     DAY = 'day'
     MONTH = 'month'
 
-class Budget(Base, StandardAttr, HasTenantId):
+class Budget(Base, StandardAttr, HasUserUUID):
     __tablename__ = 'budget'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 

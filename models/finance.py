@@ -1,7 +1,7 @@
-from models.base import Base, HasTenantId, StandardAttr
+from models.base import Base, HasUserUUID, StandardAttr
 from models.base import Db as db
 
-class Finance(Base, StandardAttr, HasTenantId):
+class Finance(Base, StandardAttr, HasUserUUID):
     __tablename__ = 'finance'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 

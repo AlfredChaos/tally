@@ -14,6 +14,6 @@ class StandardAttr(object):
     updated_at = Db.Column(Db.Date, nullable=False)
 
 
-class HasTenantId(object):
+class HasUserUUID(object):
 
-    tenant_id = Db.Column(Db.String(constant.UUID_FIELD_SIZE), index=True)
+    user_uuid = Db.Column(Db.String(constant.UUID_FIELD_SIZE), index=True)
