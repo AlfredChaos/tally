@@ -1,9 +1,9 @@
 import json
-from api.asset import asset_bp
 from cache import log
-from flask import request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response
 
 Log = log.get_global_log()
+asset_bp = Blueprint('asset', __name__)
 
 @asset_bp.route("/create/", methods=["POST"])
 def create():
