@@ -1,4 +1,4 @@
-import sqlalchemy as db
+from apps import root
 
 
 global_db = None
@@ -7,10 +7,6 @@ global_db = None
 def get_global_db():
     global global_db
     if not global_db:
-        global_db = db
+        global_db = root.db
     return global_db
 
-
-def update_db_connection(db):
-    global global_db
-    global_db = db

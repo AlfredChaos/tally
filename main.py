@@ -1,4 +1,4 @@
-import apps
+from apps import root
 from api.ai import ai_bp
 from api.archive import archive_bp
 from api.budget import budget_bp
@@ -9,7 +9,6 @@ from api.income import income_bp
 from api.asset import asset_bp
 from api.tag import tag_bp
 from api.vip import vip_bp
-from cache import log, database
 
 
 def register_blueprint(root):
@@ -26,9 +25,7 @@ def register_blueprint(root):
 
 
 if __name__ == '__main__':
-    root = apps.RegisterApp()
     register_blueprint(root)
-    database.update_db_connection(root.db)
     try:
         root.run()
     except Exception as e:
