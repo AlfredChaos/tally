@@ -16,6 +16,6 @@ class Asset(Base, StandardAttr, HasUserUUID):
 @event.listens_for(Asset, 'before_insert')
 @event.listens_for(Asset, 'before_update')
 def update_timestamps(mapper, connection, target):
-    target.updated_at = datetime.now()
+    target.updated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if not target.created_at:
-        target.created_at = datetime.now()
+        target.created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

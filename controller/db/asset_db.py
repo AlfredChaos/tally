@@ -3,14 +3,16 @@ from common import exception
 from controller.db import utils
 from models.asset import Asset
 
+
 LOG = log.get_global_log()
 DB = database.get_global_db()
 
+
 class AssetDbMix():
-    
+
     def _make_asset_dict(self, obj):
         return utils.convert_dict(obj)
-    
+
     def create_asset(self, params):
         user_uuid = params.get('user_uuid', '')
         if not user_uuid:
@@ -30,12 +32,26 @@ class AssetDbMix():
         )
         DB.session.add(asset)
         DB.session.commit()
+        return self.get(id)
 
-    def update():
-        pass
+    def update(self, id, params):
+        try:
+            DB.session.query(Asset).filter(Asset.id == id).update(params)
+            DB.session.commit()
+        except:
+            DB.session.rollback()
+            DB.session.flush()
+        return self.get(id)
 
-    def delete():
-        pass
+    def delete(self, id):
+        asset = DB.session.query(Asset).filter_by(id=id).first()
+        try:
+            DB.session.delete(asset)
+            DB.session.commit()
+        except:
+            DB.session.rollback()
+            DB.session.flush()
 
-    def get():
-        pass            
+    def get(self, id):
+        asset = DB.session.query(Asset).filter_by(id=id).first()
+        return self._make_asset_dict(asset)

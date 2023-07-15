@@ -16,4 +16,4 @@ class StandardAttr(object):
 
 class HasUserUUID(object):
 
-    user_uuid = Db.Column(Db.String(constant.UUID_FIELD_SIZE), index=True, nullable=False)
+    user_uuid = Db.Column(Db.String(constant.UUID_FIELD_SIZE), index=True, nullable=False, unique=True)
