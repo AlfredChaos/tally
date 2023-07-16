@@ -1,7 +1,7 @@
 from api.base import db_mix
 from cache import log
 from common import exception
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, make_response
 
 LOG = log.get_global_log()
 asset_bp = Blueprint('asset', __name__)
@@ -21,20 +21,33 @@ def create():
         'cash': params.get('cash', 0),
         'finance': params.get('finance', 0)
     }
-    db_mix.create_asset(body)
-    return jsonify(params)
+    asset = db_mix.create_asset(body)
+    return jsonify(asset)
 
 
 @asset_bp.route("/update", methods=["PUT"])
 def update():
-    pass
+    id = request.args.get('id')
+    params = request.get_json()
+    try:
+        asset = db_mix.update_asset(id, params)
+    except Exception as e:
+        return make_response(f"update failed: {e}", 500)
+    return jsonify(asset)
 
 
 @asset_bp.route("/delete", methods=["DELETE"])
 def delete():
-    pass
+    id = request.args.get('id')
+    try:
+        db_mix.delete_asset(id)
+    except Exception as e:
+        return make_response(f"delete failed: {e}", 500)
+    return make_response("delete succed", 200)
 
 
 @asset_bp.route("/get", methods=["GET"])
 def get():
-    pass
+    id = request.args.get('id')
+    asset = db_mix.get_asset(id)
+    return jsonify(asset)

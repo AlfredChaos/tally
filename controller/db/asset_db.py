@@ -32,26 +32,44 @@ class AssetDbMix():
         )
         DB.session.add(asset)
         DB.session.commit()
-        return self.get(id)
+        return self._make_asset_dict(asset)
 
-    def update(self, id, params):
+    def update_asset(self, id, params):
         try:
-            DB.session.query(Asset).filter(Asset.id == id).update(params)
+            asset = DB.session.query(Asset).filter_by(id=id).first()
+            if not asset:
+                err = f'updating asset {id} not exist'
+                LOG.debug(err)
+                raise exception.ObjectUpdateException(err)
+            for key, value in params.items():
+                setattr(asset, key, value)
             DB.session.commit()
-        except:
+        except Exception as e:
             DB.session.rollback()
             DB.session.flush()
-        return self.get(id)
+            err = f'updating asset {id} error: {e}'
+            LOG.debug(err)
+            raise exception.ObjectUpdateException(err)
+        return self._make_asset_dict(asset)
 
-    def delete(self, id):
+    def delete_asset(self, id):
         asset = DB.session.query(Asset).filter_by(id=id).first()
+        if not asset:
+            err = f'deleting asset {id} not exist'
+            LOG.debug(err)
+            raise exception.ObjectDeleteException(err)
         try:
             DB.session.delete(asset)
             DB.session.commit()
-        except:
+        except Exception as e:
             DB.session.rollback()
             DB.session.flush()
+            err  = f'delete asset {id} error: {e}'
+            LOG.error(err)
+            raise exception.ObjectDeleteException(err)
 
-    def get(self, id):
+    def get_asset(self, id):
         asset = DB.session.query(Asset).filter_by(id=id).first()
+        if not asset:
+            raise exception.ObjectNotExistException(f'asset {id} not exist')
         return self._make_asset_dict(asset)
