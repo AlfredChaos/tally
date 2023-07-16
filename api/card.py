@@ -51,3 +51,13 @@ def get():
     id = request.args.get('id')
     card = db_mix.get_card(id)
     return jsonify(card)
+
+
+@card_bp.route("/list", methods=["GET"])
+def list():
+    filters = {}
+    user_uuid = request.args.get('user_uuid')
+    if user_uuid:
+        filters['user_uuid'] = user_uuid
+    cards = db_mix.list_cards(filters)
+    return jsonify(cards)

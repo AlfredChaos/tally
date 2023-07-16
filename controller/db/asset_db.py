@@ -2,6 +2,7 @@ from cache import database, log
 from common import exception
 from controller.db import utils
 from models.asset import Asset
+from sqlalchemy import and_
 
 
 LOG = log.get_global_log()
@@ -73,3 +74,13 @@ class AssetDbMix():
         if not asset:
             raise exception.ObjectNotExistException(f'asset {id} not exist')
         return self._make_asset_dict(asset)
+    
+    def list_assets(self, filters):
+        filter_conditions = []
+        for key, value in filters.items():
+            filter_conditions.append(getattr(Asset, key) == value)
+        try:
+            assets = DB.session.query(Asset).filter(and_(*filter_conditions)).all()
+        except Exception as e:
+            raise exception.ObjectListException(f'list assets error: {e}')
+        return utils.convert_object_list(assets)

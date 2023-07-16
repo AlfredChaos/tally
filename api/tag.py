@@ -48,3 +48,16 @@ def get():
     id = request.args.get('id')
     tag = db_mix.get_tag(id)
     return jsonify(tag)
+
+
+@tag_bp.route("/list", methods=["GET"])
+def list():
+    filters = {}
+    name = request.args.get('name')
+    user_uuid = request.args.get('user_uuid')
+    if name:
+        filters['name'] = name
+    if user_uuid:
+        filters['user_uuid'] = user_uuid
+    tags = db_mix.list_tags(filters)
+    return jsonify(tags)

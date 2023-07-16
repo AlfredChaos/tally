@@ -2,6 +2,7 @@ from cache import database, log
 from common import exception
 from controller.db import utils
 from models.income import Income
+from sqlalchemy import and_
 
 
 LOG = log.get_global_log()
@@ -71,3 +72,13 @@ class IncomeDbMix():
         if not income:
             raise exception.ObjectNotExistException(f'income {id} not exist')
         return self._make_income_dict(income)
+    
+    def list_incomes(self, filters):
+        filter_conditions = []
+        for key, value in filters.items():
+            filter_conditions.append(getattr(Income, key) == value)
+        try:
+            incomes = DB.session.query(Income).filter(and_(*filter_conditions)).all()
+        except Exception as e:
+            raise exception.ObjectListException(f'list incomes error: {e}')
+        return utils.convert_object_list(incomes)

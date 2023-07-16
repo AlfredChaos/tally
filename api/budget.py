@@ -50,3 +50,13 @@ def get():
     id = request.args.get('id')
     budget = db_mix.get_budget(id)
     return jsonify(budget)
+
+
+@budget_bp.route("/list", methods=["GET"])
+def list():
+    filters = {}
+    user_uuid = request.args.get('user_uuid')
+    if user_uuid:
+        filters['user_uuid'] = user_uuid
+    budgets = db_mix.list_budgets(filters)
+    return jsonify(budgets)

@@ -2,6 +2,7 @@ from cache import database, log
 from common import exception
 from controller.db import utils
 from models.finance import Finance
+from sqlalchemy import and_
 
 
 LOG = log.get_global_log()
@@ -73,3 +74,13 @@ class FinanceDbMix():
         if not finance:
             raise exception.ObjectNotExistException(f'finance {id} not exist')
         return self._make_finance_dict(finance)
+    
+    def list_finances(self, filters):
+        filter_conditions = []
+        for key, value in filters.items():
+            filter_conditions.append(getattr(Finance, key) == value)
+        try:
+            finances = DB.session.query(Finance).filter(and_(*filter_conditions)).all()
+        except Exception as e:
+            raise exception.ObjectListException(f'list finances error: {e}')
+        return utils.convert_object_list(finances)

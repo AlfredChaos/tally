@@ -2,6 +2,7 @@ from cache import database, log
 from common import exception
 from controller.db import utils
 from models.vip import Vip
+from sqlalchemy import and_
 
 
 LOG = log.get_global_log()
@@ -75,3 +76,13 @@ class VipDbMix():
         if not vip:
             raise exception.ObjectNotExistException(f'vip {id} not exist')
         return self._make_vip_dict(vip)
+    
+    def list_vips(self, filters):
+        filter_conditions = []
+        for key, value in filters.items():
+            filter_conditions.append(getattr(Vip, key) == value)
+        try:
+            vips = DB.session.query(Vip).filter(and_(*filter_conditions)).all()
+        except Exception as e:
+            raise exception.ObjectListException(f'list vips error: {e}')
+        return utils.convert_object_list(vips)

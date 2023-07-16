@@ -2,6 +2,7 @@ from cache import database, log
 from common import exception
 from controller.db import utils
 from models.card import Card
+from sqlalchemy import and_
 
 
 LOG = log.get_global_log()
@@ -73,3 +74,13 @@ class CardDbMix():
         if not card:
             raise exception.ObjectNotExistException(f'card {id} not exist')
         return self._make_card_dict(card)
+
+    def list_cards(self, filters):
+        filter_conditions = []
+        for key, value in filters.items():
+            filter_conditions.append(getattr(Card, key) == value)
+        try:
+            cards = DB.session.query(Card).filter(and_(*filter_conditions)).all()
+        except Exception as e:
+            raise exception.ObjectListException(f'list cards error: {e}')
+        return utils.convert_object_list(cards)

@@ -51,3 +51,13 @@ def get():
     id = request.args.get('id')
     asset = db_mix.get_asset(id)
     return jsonify(asset)
+
+
+@asset_bp.route("/list", methods=["GET"])
+def list():
+    filters = {}
+    user_uuid = request.args.get('user_uuid')
+    if user_uuid:
+        filters['user_uuid'] = user_uuid
+    assets = db_mix.list_assets(filters)
+    return jsonify(assets)

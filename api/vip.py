@@ -52,3 +52,13 @@ def get():
     id = request.args.get('id')
     vip = db_mix.get_vip(id)
     return jsonify(vip)
+
+
+@vip_bp.route("/list", methods=["GET"])
+def list():
+    filters = {}
+    user_uuid = request.args.get('user_uuid')
+    if user_uuid:
+        filters['user_uuid'] = user_uuid
+    vips = db_mix.list_vips(filters)
+    return jsonify(vips)

@@ -9,3 +9,11 @@ def convert_dict(obj):
         if column in ['created_at', 'updated_at']:
             result[column] = result[column].isoformat()
     return result
+
+
+def convert_object_list(objs):
+    result = []
+    for obj in objs:
+        res = convert_dict(obj)
+        result.append(res)
+    return result

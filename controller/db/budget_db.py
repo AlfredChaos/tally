@@ -2,6 +2,7 @@ from cache import database, log
 from common import exception
 from controller.db import utils
 from models.budget import Budget, BudgetPeriod
+from sqlalchemy import and_
 
 
 LOG = log.get_global_log()
@@ -69,3 +70,13 @@ class BudgetDbMix():
         if not budget:
             raise exception.ObjectNotExistException(f'budget {id} not exist')
         return self._make_budget_dict(budget)
+    
+    def list_budgets(self, filters):
+        filter_conditions = []
+        for key, value in filters.items():
+            filter_conditions.append(getattr(Budget, key) == value)
+        try:
+            budgets = DB.session.query(Budget).filter(and_(*filter_conditions)).all()
+        except Exception as e:
+            raise exception.ObjectListException(f'list budgets error: {e}')
+        return utils.convert_object_list(budgets)

@@ -2,6 +2,7 @@ from cache import database, log
 from common import exception
 from controller.db import utils
 from models.tag import Tag
+from sqlalchemy import and_
 
 
 LOG = log.get_global_log()
@@ -67,3 +68,15 @@ class TagDbMix():
         if not tag:
             raise exception.ObjectNotExistException(f'tag {id} not exist')
         return self._make_tag_dict(tag)
+    
+    def list_tags(self, filters):
+        filter_conditions = []
+        for key, value in filters.items():
+            filter_conditions.append(getattr(Tag, key) == value)
+        try:
+            tags = DB.session.query(Tag).filter(and_(*filter_conditions)).all()
+        except Exception as e:
+            raise exception.ObjectListException(f'list tags error: {e}')
+        return utils.convert_object_list(tags)
+
+

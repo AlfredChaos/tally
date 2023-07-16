@@ -50,3 +50,16 @@ def get():
     id = request.args.get('id')
     income = db_mix.get_income(id)
     return jsonify(income)
+
+
+@income_bp.route("/list", methods=["GET"])
+def list():
+    filters = {}
+    tag_id = request.args.get('tag_id')
+    user_uuid = request.args.get('user_uuid')
+    if tag_id:
+        filters['tag_id'] = tag_id
+    if user_uuid:
+        filters['user_uuid'] = user_uuid
+    incomes = db_mix.list_incomes(filters)
+    return jsonify(incomes)
