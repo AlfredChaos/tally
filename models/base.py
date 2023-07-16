@@ -10,8 +10,8 @@ Db = database.get_global_db()
 class StandardAttr(object):
 
     id = Db.Column(Db.String(constant.UUID_FIELD_SIZE), primary_key=True, default=uuidutils.generate_uuid)
-    created_at = Db.Column(Db.Date, nullable=False)
-    updated_at = Db.Column(Db.Date, nullable=False)
+    created_at = Db.Column(Db.DateTime, nullable=False)
+    updated_at = Db.Column(Db.DateTime, nullable=False)
 
 
 class HasUserUUID(object):
