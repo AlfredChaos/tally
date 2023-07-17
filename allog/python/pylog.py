@@ -10,7 +10,7 @@ class Level():
     Critical = "CRITICAL"
 
     def get_level(level):
-        if type(level) != 'str':
+        if type(level).__name__ != 'str':
             print("Error: get level failed, invalid parameter")
         if level.upper() == Level.Debug:
             return Level.Debug

@@ -1,5 +1,5 @@
 import apps
-from cache import config, database
+from cache import config
 from models import (base, budget, card, finance, income, asset, tag, vip)
 from sqlalchemy import create_engine
 

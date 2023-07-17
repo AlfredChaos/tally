@@ -2,6 +2,7 @@ from api.base import db_mix
 from cache import log
 from common import exception
 from flask import Blueprint, request, jsonify, make_response
+from models.tag import TagType
 
 LOG = log.get_global_log()
 tag_bp = Blueprint('tag', __name__)
@@ -16,7 +17,8 @@ def create():
             f'user_uuid is required, params = {params}')
     body = {
         'user_uuid': user_uuid,
-        'name': params.get('name', '')
+        'name': params.get('name', ''),
+        'tag_type': params.get('tag_type', TagType.EXPAND)
     }
     tag = db_mix.create_tag(body)
     return jsonify(tag)
