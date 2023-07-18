@@ -13,19 +13,12 @@ class TagType(Enum):
     INCOME = 'income'
 
 
-class TagSource(Enum):
-
-    DEFAULT = 'default'
-    USER = 'user'
-
-
 class Tag(Base, StandardAttr, HasUserUUID):
     __tablename__ = 'tag'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 
     name = db.Column(db.String(constant.SHORT_TEXT_SIZE), nullable=False)
     tag_type = db.Column(db.Enum(TagType), nullable=False)
-    source = db.Column(db.Enum(TagSource), nullable=False)
 
 
 @event.listens_for(Tag, 'before_insert')

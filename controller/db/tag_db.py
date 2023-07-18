@@ -1,8 +1,7 @@
 from cache import database, log
 from common import exception
 from controller.db import utils
-from controller.db._default_tag import default_tag
-from models.tag import Tag, TagType, TagSource
+from models.tag import Tag, TagType
 from sqlalchemy import and_
 
 
@@ -23,14 +22,10 @@ class TagDbMix():
             raise exception.InvalidParamsException(err)
         name = params.get('name', '')
         tag_type = params.get('tag_type', TagType.EXPAND)
-        source = params.get('source', TagSource.DEFAULT)
-        if name == 'default-not-exist':
-            raise exception.InvalidParamsException(f'tag name {name} invalid')
         tag = Tag(
             user_uuid=user_uuid,
             name=name,
-            tag_type=tag_type,
-            source=source
+            tag_type=tag_type
         )
         DB.session.add(tag)
         DB.session.commit()
@@ -44,8 +39,6 @@ class TagDbMix():
                 LOG.debug(err)
                 raise exception.ObjectUpdateException(err)
             for key, value in params.items():
-                if key == 'name' and value == 'default-not-exist':
-                    raise exception.InvalidParamsException(f'tag name {value} invalid')
                 setattr(tag, key, value)
             DB.session.commit()
         except Exception as e:
@@ -58,7 +51,6 @@ class TagDbMix():
 
     def delete_tag(self, id):
         tag = DB.session.query(Tag).filter_by(id=id).first()
-        user_uuid = tag.user_uuid
         if not tag:
             err = f'deleting tag {id} not exist'
             LOG.debug(err)
@@ -72,26 +64,14 @@ class TagDbMix():
             err  = f'delete tag {id} error: {e}'
             LOG.error(err)
             raise exception.ObjectDeleteException(err)
-        # 出于维护默认tag的需要
-        # 当用户删除所有默认tag，创建一个标记
-        filters = {'user_uuid': user_uuid, 'source': TagSource.DEFAULT}
-        default_tags = self.list_tags(filters)
-        if len(default_tags) == 0:
-            params = {
-                'name': 'default-not-exist',
-                'tag_type': TagType.ANY,
-                'source': TagSource.DEFAULT
-            }
-            dne = self.create_tag(params)
-            LOG.info(f'default-not-exist created succeed: {dne}')
 
     def get_tag(self, id):
         tag = DB.session.query(Tag).filter_by(id=id).first()
         if not tag:
             raise exception.ObjectNotExistException(f'tag {id} not exist')
         return self._make_tag_dict(tag)
-    
-    def _list_tags(self, filters):
+
+    def list_tags(self, filters):
         filter_conditions = []
         for key, value in filters.items():
             filter_conditions.append(getattr(Tag, key) == value)
@@ -100,24 +80,3 @@ class TagDbMix():
         except Exception as e:
             raise exception.ObjectListException(f'list tags error: {e}')
         return utils.convert_object_list(tags)
-    
-    # 若不存在source=default的tag，则为用户创建所有默认tag
-    # 过滤name=default-not-exist的tag，此tag仅为标记
-    def list_tags(self, filters):
-        user_uuid = filters.get('user_uuid', '')
-        default_filter = {"source": TagSource.DEFAULT, 'user_uuid': user_uuid}
-        default_tags = self._list_tags(default_filter)
-        if len(default_tags) != 0:
-            return self._list_tags(filters)
-        for tag_type, tag_list in default_tag.items():
-            for name in tag_list:
-                params = {
-                    "user_uuid": user_uuid,
-                    "name": name,
-                    "tag_type": tag_type,
-                    "source": TagSource.DEFAULT
-                }
-                self.create_tag(params)
-        return self._list_tags(filters)
-
-
