@@ -23,13 +23,19 @@ class CardDbMix():
         name = params.get('name', '')
         bank = params.get('bank', '')
         card_type = params.get('card_type', '')
-        deposit = params.get('deposit', 0)
+        fixed_deposit = params.get('fixed_deposit', 0)
+        fixed_deposit_description = params.get('fixed_deposit_description', '')
+        saving_deposit = params.get('saving_deposit', 0)
+        saving_deposit_description = params.get('saving_deposit_description', '')
         card = Card(
             user_uuid=user_uuid,
             name=name,
             bank=bank,
             card_type=card_type,
-            deposit=deposit
+            fixed_deposit=fixed_deposit,
+            fixed_deposit_description=fixed_deposit_description,
+            saving_deposit=saving_deposit,
+            saving_deposit_description=saving_deposit_description
         )
         DB.session.add(card)
         DB.session.commit()

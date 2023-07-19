@@ -12,7 +12,9 @@ class Card(Base, StandardAttr, HasUserUUID):
     bank = db.Column(db.String(constant.SHORT_TEXT_SIZE), nullable=True)
     card_type = db.Column(db.String(constant.SHORT_TEXT_SIZE), nullable=False)
     fixed_deposit = db.Column(db.DECIMAL(20, 2), nullable=True)
+    fixed_deposit_description = db.Column(db.String(constant.LONG_TEXT_SIZE), nullable=True)
     saving_deposit = db.Column(db.DECIMAL(20, 2), nullable=True)
+    saving_deposit_description = db.Column(db.String(constant.LONG_TEXT_SIZE), nullable=True)
 
 
 @event.listens_for(Card, 'before_insert')

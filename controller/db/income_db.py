@@ -22,12 +22,14 @@ class IncomeDbMix():
             raise exception.InvalidParamsException(err)
         name = params.get('name', '')
         tag_id = params.get('tag_id', '')
-        income = params.get('income', 0)
+        income_num = params.get('income', 0)
+        description = params.get('description', '')
         income = Income(
             user_uuid=user_uuid,
             name=name,
             tag_id=tag_id,
-            income=income
+            income=income_num,
+            description=description
         )
         DB.session.add(income)
         DB.session.commit()

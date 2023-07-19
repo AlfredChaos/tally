@@ -18,7 +18,8 @@ def create():
         'user_uuid': user_uuid,
         'name': params.get('name', ''),
         'tag_id': params.get('tag_id', ''),
-        'income': params.get('income', 0)
+        'income': params.get('income', 0),
+        'description': params.get('description', '')
     }
     income = db_mix.create_income(body)
     return jsonify(income)
