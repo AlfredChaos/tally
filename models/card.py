@@ -11,7 +11,8 @@ class Card(Base, StandardAttr, HasUserUUID):
     name = db.Column(db.String(constant.SHORT_TEXT_SIZE), nullable=False)
     bank = db.Column(db.String(constant.SHORT_TEXT_SIZE), nullable=True)
     card_type = db.Column(db.String(constant.SHORT_TEXT_SIZE), nullable=False)
-    deposit = db.Column(db.DECIMAL(20, 2), nullable=True)
+    fixed_deposit = db.Column(db.DECIMAL(20, 2), nullable=True)
+    saving_deposit = db.Column(db.DECIMAL(20, 2), nullable=True)
 
 
 @event.listens_for(Card, 'before_insert')
