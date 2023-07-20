@@ -1,10 +1,7 @@
-from controller import (asset, budget, card, income, tag, vip, fund)
-from controller.db import (budget_db, card_db, 
-                           finance_db, income_db, tag_db, 
-                           vip_db)
+from controller import (asset, budget, card, income, tag, vip, fund, finance)
 
 class GetAllDbMix(asset.AssetController, budget.BudgetController, 
-                  card.CardController, finance_db.FinanceDbMix, 
+                  card.CardController, finance.FinanceController, 
                   income.IncomeController, tag.TagController, 
                   vip.VipController, fund.FundController):
 
