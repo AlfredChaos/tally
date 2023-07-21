@@ -21,15 +21,25 @@ class FundDbMix():
             LOG.info(err)
             raise exception.InvalidParamsException(err)
         name = params.get('name', '')
-        tag_id = params.get('tag_id', '')
-        fund_num = params.get('fund', 0)
+        money = params.get('money', 0)
+        fund_type = params.get('fund_type', '')
         description = params.get('description', '')
+        auto_investment = params.get('auto_investment', False)
+        auto_investment_strategy = params.get('auto_investment_strategy', '')
+        auto_investment_period = params.get('auto_investment_period', '')
+        auto_investment_money = params.get('auto_investment_money', 0)
+        strategy_type = params.get('strategy_type', '')
         fund = Fund(
             user_uuid=user_uuid,
             name=name,
-            tag_id=tag_id,
-            fund=fund_num,
-            description=description
+            money=money,
+            description=description,
+            fund_type=fund_type,
+            auto_investment=auto_investment,
+            auto_investment_strategy=auto_investment_strategy,
+            auto_investment_period=auto_investment_period,
+            auto_investment_money=auto_investment_money,
+            strategy_type=strategy_type
         )
         DB.session.add(fund)
         DB.session.commit()

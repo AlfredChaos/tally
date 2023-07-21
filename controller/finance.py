@@ -18,4 +18,4 @@ class FinanceController():
         return 
     
     def list_finances(self, filters):
-        return 
+        return

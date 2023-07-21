@@ -10,6 +10,8 @@ from api.income import income_bp
 from api.asset import asset_bp
 from api.tag import tag_bp
 from api.vip import vip_bp
+from api.insurance import insurance_bp
+from api.stock import stock_bp
 
 
 def register_blueprint(root):
@@ -24,6 +26,8 @@ def register_blueprint(root):
     root.app.register_blueprint(asset_bp, url_prefix='/asset/')
     root.app.register_blueprint(tag_bp, url_prefix='/tag/')
     root.app.register_blueprint(vip_bp, url_prefix='/vip/')
+    root.app.register_blueprint(insurance_bp, url_prefix='/insurance/')
+    root.app.register_blueprint(stock_bp, url_prefix='/stock_bp/')
 
 
 if __name__ == '__main__':

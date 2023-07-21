@@ -5,12 +5,6 @@ class FundController(fund_db.FundDbMix):
     def __init__(self) -> None:
         super().__init__()
 
-    def _get_total(self, fund_db_mix):
-        fund_db_mix['total'] = fund_db_mix['fixed'] +\
-            fund_db_mix['debt'] + fund_db_mix['cash'] +\
-            fund_db_mix['finance']
-        return fund_db_mix
-
     def create_fund(self, params):
         return super().create_fund(params)
 
