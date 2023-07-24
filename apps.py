@@ -1,15 +1,19 @@
 import configparser
+import time
 import os
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from allog.python import pylog
 from allog.python.pylog import Level
 from cache import config
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_apscheduler import APScheduler
+from datetime import datetime
 
 
 class RegisterApp(object):
 
-    def __init__(self) -> None:
+    def __init__(self, enable_scheduler=True):
         self.app = Flask(__name__)
         self.path_file = "config.ini"
         self.config = configparser.ConfigParser()
@@ -18,6 +22,8 @@ class RegisterApp(object):
         self._update_global_cache()
         self.log = self._init_log()
         self.db = self.connct_database()
+        if enable_scheduler:
+            self.enable_scheduler()
 
     def _get_current_path(self):
         current_file = os.path.realpath(__file__)
@@ -64,6 +70,22 @@ class RegisterApp(object):
         self.app.config['SQLALCHEMY_DATABASE_URI'] = self.db_uri
         self.app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
         return SQLAlchemy(self.app)
+    
+    def enable_scheduler(self):
+        self.app.config['SCHEDULER_TIMEZONE'] = 'Asia/Shanghai'
+        self.app.config['SCHEDULER_API_ENABLED '] = True
+        self.app.config['SCHEDULER_EXECUTORS '] = {
+            'default': {
+                'type': 'threadpool',
+                'max_workers': 10
+            }
+        }
+        self.app.config['SCHEDULER_JOBSTORES '] = {
+            'default': SQLAlchemyJobStore(url=self.db_uri)
+        }
+        self.scheduler = APScheduler()
+        self.scheduler.init_app(self.app)
+        self.scheduler.start()
     
     def register_blueprint(self, bp, url_prefix):
         self.app.register_blueprint(bp, url_prefix)
