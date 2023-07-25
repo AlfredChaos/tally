@@ -1,21 +1,22 @@
-import apps
+from apps import root
 from cache import config
-from models import (base, budget, card, finance, income, asset, tag, vip)
+from models import (base, budget, card, fund, income, asset, tag, vip, stock, insurance)
 from sqlalchemy import create_engine
 
 
 def init_database_table():
     budget.Budget()
     card.Card()
-    finance.Finance()
+    fund.Fund()
     income.Income()
     asset.Asset()
     tag.Tag()
     vip.Vip()
+    stock.Stock()
+    insurance.Insurance()
 
 
 if __name__ == '__main__':
-    root = apps.RegisterApp()
     init_database_table()
     database_name = config.global_config["Default"]["project"]
     engine_uri = root.db_uri.split(database_name)[0]
