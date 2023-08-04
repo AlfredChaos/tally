@@ -1,0 +1,75 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@next"></script>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-plus"></script>
+    <title>Hello Vue</title>
+</head>
+
+<body>
+    <div id="app">
+        <h2>配置信息</h2>
+        <div>
+            <label>昵称：</label>
+            <input type="text" v-model="user.name">
+        </div>
+        <div>
+            <label>性别：</label>
+            <input type="radio" name="sex" v-model="user.sex" value="男">男
+            <input type="radio" name="sex" v-model="user.sex" value="女">女
+        </div>
+        <div>
+            <label>心愿单：</label>
+            <input type="checkbox" name="wish" v-model="user.wish" value="iphone">iphone
+            <input type="checkbox" name="wish" v-model="user.wish" value="ipad">ipad
+            <input type="checkbox" name="wish" v-model="user.wish" value="iwatch">iwatch
+            <input type="checkbox" name="wish" v-model="user.wish" value="其他">其他
+        </div>
+        <div>
+            <label>组号：</label>
+            <select v-model="user.group" style="width: 100px">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+        <div>
+            <label>备注：</label>
+            <textarea v-model="user.remark"></textarea>
+        </div>
+        <div>
+            <h2>已配置用户信息</h2>
+            <p>姓名：{{user.name}}</p>
+            <p>性别：{{user.sex}}</p>
+            <p>心愿单：{{user.wish}}</p>
+            <p>组织编号：{{user.group}}</p>
+            <p>备注：{{user.remark}}</p>
+        </div>
+    </div>
+    <script>
+        const App = {
+            data() {
+                return {
+                    user: {
+                        name: '',
+                        sex: '男',
+                        wish: [],
+                        group: '',
+                        remark: ''
+                    }
+                };
+            },
+        };
+        const app = Vue.createApp(App);
+        app.use(ElementPlus);
+        app.mount("#app");
+    </script>
+</body>
+
+</html>
